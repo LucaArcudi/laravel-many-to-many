@@ -9,14 +9,20 @@
             {{ session('message') }}
         </div>
         <div class="card col">
-            
+            <div class="card-header">
+                <h5 class="card-title">{{ $project->title }}</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">{{ $project->title }}
-                    <span style="color: {{$project->type->color}}"> {{ $project->type->name }} </span>
-                </h5>
-                <h6 class="card-subtitle">{{ $project->technologies }}</h6>
                 <p class="card-text">{{ $project->description }}</p>
                 <p class="card-text">{{ $project->date }}</p>
+                <div>
+                    @foreach ($project->technologies as $technology)
+                    <span style="color: {{ $technology->color }}">{{ $technology->name }}</span>
+                    @endforeach
+                </div>
+                <p style="color: {{ $project->type->color }}"> {{ $project->type->name }}</p>
+            </div>
+            <div class="card-footer">
                 <a href="{{ route('admin.projects.index') }}" class="btn btn-primary">Index</a>
                 <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning">Edit</a>
                 <form class="form-deleter d-inline" action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" data-element-name="{{ $project->title }}">

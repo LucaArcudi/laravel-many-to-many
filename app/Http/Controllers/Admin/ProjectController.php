@@ -18,7 +18,7 @@ class ProjectController extends Controller
         'description' => ['required', 'min:5'],
         'date' => ['required'],
         'type_id' => ['required', 'exists:types,id'],
-        'technologies' => ['array', 'exists:technologies,id']
+        'technologies' => 'array|exists:technologies,id'
     ];
 
     /**
@@ -60,6 +60,7 @@ class ProjectController extends Controller
 
         $newProject = new Project();
         $newProject->fill($data);
+        // dd($newProject);
         $newProject->save();
         $newProject->technologies()->sync($data['technologies']);
 
@@ -105,6 +106,7 @@ class ProjectController extends Controller
 
         $updatedProject = Project::findOrFail($id);
         $updatedProject->update($data);
+        $updatedProject->technologies()->sync($data['technologies']);
 
         return redirect()->route('admin.projects.show', $updatedProject->id)->with('message', "Successfully modified")->with('alert-type', 'success');
     }
@@ -118,6 +120,7 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
+        $project->technologies()->sync([]);
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "$project->title has been deleted")->with('alert-type', 'danger');
     }

@@ -30,6 +30,9 @@
                 <a href="{{ route('admin.projects.index') }}" class="list-group-item list-group-item-action" aria-current="true">
                     Projects index
                 </a>
+                <a href="{{ route('admin.types.index') }}" class="list-group-item list-group-item-action" aria-current="true">
+                    Types index
+                </a>
             </div>
         </div>
     </div>

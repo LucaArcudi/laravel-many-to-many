@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as DashboardController;
 use App\Http\Controllers\Admin\ProjectController as ProjectController;
+use App\Http\Controllers\Admin\TypeController as TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('projects', ProjectController::class);
+    Route::delete('/projects/{project}/clear-type', [ProjectController::class, 'clearType'])->name('projects.clear.type');
+    Route::resource('types', TypeController::class);
 });
 
 Route::middleware('auth')->group(function () {

@@ -115,4 +115,13 @@ class ProjectController extends Controller
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "$project->title has been deleted")->with('alert-type', 'danger');
     }
+
+    public function clearType(Project $project)
+    {
+        $type = $project->type;
+        $project->type_id = null;
+        $project->update();
+
+        return redirect()->route('admin.types.show', compact('type'));
+    }
 }

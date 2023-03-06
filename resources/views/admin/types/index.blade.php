@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('app.name').' - Projects')
+@section('title', config('app.name').' - Types')
 
 @section('content')
 <div class="container">
@@ -22,27 +22,25 @@
                 <thead class="align-middle">
                     <tr>
                         <th scope="col">id</th>
-                        <th scope="col">title</th>
-                        <th scope="col">type</th>
-                        <th scope="col">technologies</th>
-                        <th scope="col">date</th>
+                        <th scope="col">name</th>
+                        <th scope="col">color</th>
+                        <th scope="col">n. of projects</th>
                         <th scope="col">
-                            <a href="{{ route('admin.projects.create') }}" class="btn btn-lg btn-primary my-3 w-100">Add a new project</a>
+                            <a href="{{ route('admin.types.create') }}" class="btn btn-lg btn-primary my-3 w-100">Add a new type</a>
                         </th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    @foreach ($projects as $project)
+                    @foreach ($types as $type)
                     <tr>
-                        <th scope="row">{{ $project->id }}</th>
-                        <td>{{ $project->title }}</td>
-                        <td>{{ $project->type->name ?? 'No category' }}</th>
-                        <td>{{ $project->technologies }}</td>
-                        <td>{{ $project->date }}</td>
+                        <th scope="row">{{ $type->id }}</th>
+                        <td>{{ $type->name }}</td>
+                        <td style="background-color: {{ $type->color }}">{{ $type->color }}</td>
+                        <td>{{ count($type->projects) }}</td>
                         <td>
-                            <a href="{{ route('admin.projects.show', $project->id ) }}" class="btn btn-primary btn-sm w-100">Show</a>
-                            <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning btn-sm w-100">Edit</a>
-                            <form class="form-deleter" action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" data-element-name="{{ $project->title }}">
+                            <a href="{{ route('admin.types.show', $type->id ) }}" class="btn btn-primary btn-sm w-100">Show</a>
+                            <a href="{{ route('admin.types.edit', $type->id) }}" class="btn btn-warning btn-sm w-100">Edit</a>
+                            <form class="form-deleter" action="{{ route('admin.types.destroy', $type->id) }}" method="POST" data-element-name="{{ $type->name }}">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm w-100">Delete</button>

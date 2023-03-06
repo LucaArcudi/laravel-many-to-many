@@ -16,7 +16,8 @@
     
 
     <div class="mb-3">
-        <select class="form-control" name="type_id" >
+        <label for="type_name">type</label>
+        <select class="form-control" id="type_name" name="type_id" >
             @foreach ($types as $type )
             <option value="{{ $type->id }}">{{ $type->name }}</option>    
             @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,10 +15,10 @@ class ProjectController extends Controller
 
     public $validationRules = [
         'title' => ['required', 'min:2', 'max:50', 'unique:projects'],
-        'technologies' => ['required', 'min:2', 'max:50'],
         'description' => ['required', 'min:5'],
         'date' => ['required'],
-        'type_id' => ['required', 'exists:types,id']
+        'type_id' => ['required', 'exists:types,id'],
+        'technologies' => ['array', 'exists:technologies,id']
     ];
 
     /**
@@ -40,7 +41,8 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $types = Type::all();
-        return view('admin.projects.create', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -54,9 +56,12 @@ class ProjectController extends Controller
         $data = $request->validate($this->validationRules);
         $data['slug'] = Str::slug($data['title']);
 
+        // dd($data);
+
         $newProject = new Project();
         $newProject->fill($data);
         $newProject->save();
+        $newProject->technologies()->sync($data['technologies']);
 
         return redirect()->route('admin.projects.show', $newProject->id)->with('message', "$newProject->title has been created")->with('alert-type', 'primary');
     }
@@ -81,7 +86,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**

@@ -14,22 +14,15 @@
     </div>
     @endif
     
-
     <div class="mb-3">
-        <label for="type_name">type</label>
-        <select class="form-control" id="type_name" name="type_id" >
-            @foreach ($types as $type )
-            <option value="{{ $type->id }}">{{ $type->name }}</option>    
+            @foreach ($technologies as $technology )
+                <input type="checkbox" class="form-check-input" id="technology_name" name="technologies[]" value="{{$technology->id}}">
+                <label class="form-check-label" for="technology_name">{{$technology->name}}</label>    
             @endforeach
-        </select>
     </div>
     <div class="mb-3">
         <label class="form-label">title</label>
         <input type="text" class="form-control" value="{{ old('title', $project->title) }}" name="title">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">technologies</label>
-        <input type="text" class="form-control" value="{{ old('technologies', $project->technologies) }}" name="technologies">
     </div>
     <div class="mb-3">
         <label class="form-label">description</label>
@@ -38,6 +31,14 @@
     <div class="mb-3">
         <label class="form-label">date</label>
         <input type="date" class="form-control" value="{{ old('date', $project->date) }}" name="date">
+    </div>
+    <div class="mb-3">
+        <label for="type_name">type</label>
+        <select class="form-control" id="type_name" name="type_id" >
+            @foreach ($types as $type )
+            <option value="{{ $type->id }}">{{ $type->name }}</option>    
+            @endforeach
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">{{ $buttonName }}</button>
 </form>

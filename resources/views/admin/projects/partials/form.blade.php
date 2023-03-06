@@ -16,7 +16,12 @@
     
     <div class="mb-3">
             @foreach ($technologies as $technology )
-                <input type="checkbox" class="form-check-input" id="technology_name" name="technologies[]" value="{{$technology->id}}">
+                <input type="checkbox" class="form-check-input" name="technologies[]" value="{{$technology->id}}"
+                @if ($errors->any())
+                    @checked(in_array($technology->id, old('technologies', [])))
+                @else
+                    @checked($project->technologies->contains($technology->id))
+                @endif>
                 <label class="form-check-label" for="technology_name">{{$technology->name}}</label>    
             @endforeach
     </div>
